@@ -3,6 +3,7 @@ package com.example.newsapp.ui.repository
 import android.app.DownloadManager
 import com.example.newsapp.ui.api.RetrofitInstance
 import com.example.newsapp.ui.db.ArticleDatabase
+import com.example.newsapp.ui.models.Article
 
 class NewsRepository(
     val db: ArticleDatabase
@@ -12,4 +13,11 @@ class NewsRepository(
 
     suspend fun searchNews(searchQuery: String, pageNumber: Int) =
         RetrofitInstance.api.searchForNews(searchQuery, pageNumber)
+
+    suspend fun upsert(article:Article) = db.getArticleDao().upsert(article)
+
+    fun getSavedNews() = db.getArticleDao().getAllArticles()
+
+    suspend fun deleteArticle(article: Article) = db.getArticleDao().deleteArticle(article)
+
 }
